@@ -1,0 +1,35 @@
+name: Daily Reminder Workflow
+
+on:
+  schedule:
+    - cron: '0 0 * * * '
+  workflow_dispatch:
+
+env:
+  LOG_FILE: daily-reminder.log
+
+jobs:
+  daily-reminder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: add reminder
+        run: |
+          printf "[%s] daily reminder\n" "$(date -u '+%Y-%m-%d %H:%M:%S')" >> "$LOG_FILE"
+
+      - name: git commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f "$LOG_FILE"
+          git commit -m "daily reminder"
+
+      - name: git push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+
