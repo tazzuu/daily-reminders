@@ -1,3 +1,3 @@
 # daily reminders
 
-Daily Reminders. So we **n**ever **f**orget.
+Daily Reminders. So we **N**ever **F*orget.
